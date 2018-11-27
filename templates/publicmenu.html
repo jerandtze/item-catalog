@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>BookStore</title>
+</head>
+
+<body>
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	
+	<div class="row divider green">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>{{ genre.title }}
+			<figure class="creator">
+				<img src="{{ creator.picture}}">
+				<figcaption>{{ creator.name }}</figcaption>
+			</figure>
+			</h1>
+
+		</div>
+	</div>
+	<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+			
+		</div>
+		<div class="col-md-7"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					<ul>
+						{% for message in messages %}
+							 <li> <strong> {{ message }} </strong> </li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			{% endwith %}
+		</div>
+	</div>
+	{% if items !=[] %}	
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				<h2>eBook</h2>
+					{% for i in items %}
+						{% if i.edition == 'eBook' %}
+							<div class="book-item">
+								<img class="img-responsive" src="{{ i.coverUrl }}" img width=100px onerror="imgError(this);" alt="{{ i.title }} Image">
+								<h3>{{i.title}}</h3>
+								<p>{{i.author}}</p>
+								<p>{{i.description}}</p>
+								<p class="book-price">{{i.price}}</p>
+								<a href='{{url_for('editBookItem', genre_id = genre.id, book_id=i.id ) }}'>Edit</a> | 
+								<a href='{{url_for('deleteBookItem', genre_id = genre.id, book_id=i.id ) }}'>Delete</a>
+							</div>
+						{% endif %}
+					{% endfor %}
+			</div>
+			<div class="col-md-4">			
+				<h2>Hardcover</h2>
+					{% for i in items %}
+						{% if i.edition == 'hardcover' %}
+						<div class="book-item">
+							<img class="img-responsive" src="{{ i.coverUrl }}" img width=100px onerror="imgError(this);" alt="{{ i.title }} Image">
+							<h3>{{i.title}}</h3>
+							<p>{{i.author}}</p>
+							<p>{{i.description}}</p>
+							<p class="book-price">{{i.price}}</p>
+							<a href='{{url_for('editBookItem', genre_id = genre.id, book_id=i.id ) }}'>Edit</a> | 
+							<a href='{{url_for('deleteBookItem', genre_id = genre.id, book_id=i.id ) }}'>Delete</a>
+						</div>
+						{% endif %}
+					{% endfor %}
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	{% endif %}
+{% endblock %}
+</body>
+</html>
